@@ -1,12 +1,13 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 443
+EXPOSE 8443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["TelegramBot.WebHook/TelegramBot.WebHook.csproj", "TelegramBot.WebHook/"]
+COPY ["Libraries/TelegramBot.Application/TelegramBot.Application.csproj", "Libraries/TelegramBot.Application/"]
 COPY ["Libraries/TelegramBot.CrossCutting/TelegramBot.CrossCutting.csproj", "Libraries/TelegramBot.CrossCutting/"]
 RUN dotnet restore "TelegramBot.WebHook/TelegramBot.WebHook.csproj"
 COPY . .

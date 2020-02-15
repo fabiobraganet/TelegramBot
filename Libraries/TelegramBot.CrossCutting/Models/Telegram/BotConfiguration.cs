@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TelegramBot.CrossCutting.Model.Telegram
+namespace TelegramBot.CrossCutting.Models.Telegram
 {
     public class BotConfiguration
     {

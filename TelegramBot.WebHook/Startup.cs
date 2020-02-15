@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
+﻿
 namespace TelegramBot.WebHook
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using TelegramBot.Application.Services;
+    using TelegramBot.CrossCutting.Interfaces.Telegram;
+    using TelegramBot.CrossCutting.Models.Telegram;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -24,10 +21,16 @@ namespace TelegramBot.WebHook
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IUpdateService, UpdateService>();
+            services.AddSingleton<IBotService, BotService>();
+            services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
+
+            services
+                .AddControllers()
+                .AddNewtonsoftJson();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -39,7 +42,13 @@ namespace TelegramBot.WebHook
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+            app.UseCors();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
