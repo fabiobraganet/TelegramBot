@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  telegrambot.webhook:
+  telegrambot:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:8443
@@ -9,3 +9,26 @@ services:
       - "8443:8443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - frontend
+      - backend
+    depends_on: 
+      - "redis"
+
+  redis:
+    command: redis-server --requirepass !Redis2020
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

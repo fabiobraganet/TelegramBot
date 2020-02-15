@@ -1,8 +1,15 @@
 version: '3.4'
 
 services:
-  telegrambot.webhook:
+  telegrambot:
+    container_name: telegrambot
+    hostname: telegrambot
     image: telegrambotwebhook
     build:
       context: .
       dockerfile: TelegramBot.WebHook/Dockerfile
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis

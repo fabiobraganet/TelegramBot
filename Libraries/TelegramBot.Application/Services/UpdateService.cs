@@ -24,8 +24,6 @@ namespace TelegramBot.Application.Services
 
         public async Task EchoAsync(Update update)
         {
-
-
             if (update.Type != UpdateType.Message)
             {
                 if (update.Type == UpdateType.EditedMessage)
@@ -65,6 +63,13 @@ namespace TelegramBot.Application.Services
                     await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Imagem recebida!");
                     break;
             }
+        }
+
+        public async Task WaitForReturnAsync(Update update)
+        {
+            var message = update.Message;
+            
+            await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Ainda estamos processando a mensagem anterior. Por favor, aguarde.");
         }
     }
 }

@@ -7,5 +7,6 @@ namespace TelegramBot.CrossCutting.Interfaces.Telegram
     public interface IUpdateService
     {
         Task EchoAsync(Update update);
+        Task WaitForReturnAsync(Update update);
     }
 }
