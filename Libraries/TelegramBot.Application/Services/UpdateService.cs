@@ -49,7 +49,7 @@ namespace TelegramBot.Application.Services
             switch (message.Type)
             {
                 case MessageType.Text:
-                    await _botService.Client.SendTextMessageAsync(message.Chat.Id, message.Text);
+                    await _botService.Client.SendTextMessageAsync(message.Chat.Id, $"Mensagem recebida: {message.Text}");
                     break;
 
                 case MessageType.Photo:
@@ -62,7 +62,7 @@ namespace TelegramBot.Application.Services
                         await _botService.Client.DownloadFileAsync(file.FilePath, saveImageStream);
                     }
 
-                    await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Thx for the Pics");
+                    await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Imagem recebida!");
                     break;
             }
         }
