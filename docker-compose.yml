@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  telegrambot.webhook:
+    image: ${DOCKER_REGISTRY-}telegrambotwebhook
+    build:
+      context: .
+      dockerfile: TelegramBot.WebHook/Dockerfile
