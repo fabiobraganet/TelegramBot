@@ -1,7 +1,13 @@
 ﻿
 namespace TelegramBot.Application.Services
 {
+    using ESB.Domain.Entities.Bots;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+    using Rebus.Activation;
+    using Rebus.Bus;
+    using Rebus.Config;
+    using Rebus.Transport;
     using System;
     using System.IO;
     using System.Linq;
@@ -16,10 +22,39 @@ namespace TelegramBot.Application.Services
         private readonly IBotService _botService;
         private readonly ILogger<UpdateService> _logger;
 
-        public UpdateService(IBotService botService, ILogger<UpdateService> logger)
+        private readonly BuiltinHandlerActivator _activator;
+
+        public UpdateService(IBotService botService, ILogger<UpdateService> logger, IConfiguration configuration)
         {
+            _activator = new BuiltinHandlerActivator();
             _botService = botService;
             _logger = logger;
+
+            string connectionRabbitMQ = configuration.GetConnectionString("ConexaoRabbitMQ");
+            string queueName = typeof(BotMessage).Name;
+
+            Configure
+                .With(_activator)
+                .Transport(t => t.UseRabbitMq(connectionRabbitMQ, queueName)
+                                    .EnablePublisherConfirms(value: true))
+                .Create();
+        }
+
+        private async Task PublishMessage(Message message)
+        {
+            var esbmessage = new BotMessage()
+            {
+                MessageId = message.MessageId.ToString(),
+                BotUserId = message.Chat.Id.ToString(),
+                Text = message.Text,
+                SendDate = message.Date
+            };
+
+            using (var scope = new RebusTransactionScope())
+            {
+                await _activator.Bus.SendLocal(esbmessage).ConfigureAwait(false);
+                await scope.CompleteAsync().ConfigureAwait(false);
+            }
         }
 
         public async Task EchoAsync(Update update)
@@ -47,7 +82,9 @@ namespace TelegramBot.Application.Services
             switch (message.Type)
             {
                 case MessageType.Text:
-                    await _botService.Client.SendTextMessageAsync(message.Chat.Id, $"Mensagem recebida: {message.Text}");
+
+                    await PublishMessage(message).ConfigureAwait(false);
+                    
                     break;
 
                 case MessageType.Photo:
@@ -60,7 +97,7 @@ namespace TelegramBot.Application.Services
                         await _botService.Client.DownloadFileAsync(file.FilePath, saveImageStream);
                     }
 
-                    await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Imagem recebida!");
+                    await SendTextMessageAsync(message.Chat.Id, "Imagem recebida!");
                     break;
             }
         }
@@ -70,6 +107,11 @@ namespace TelegramBot.Application.Services
             var message = update.Message;
             
             await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Ainda estamos processando a mensagem anterior. Por favor, aguarde.");
+        }
+
+        public async Task SendTextMessageAsync(long chatid, string message)
+        {
+            await _botService.Client.SendTextMessageAsync(chatId: chatid, text: message);
         }
     }
 }

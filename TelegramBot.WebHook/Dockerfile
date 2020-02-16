@@ -9,6 +9,7 @@ WORKDIR /src
 COPY ["TelegramBot.WebHook/TelegramBot.WebHook.csproj", "TelegramBot.WebHook/"]
 COPY ["Libraries/TelegramBot.Application/TelegramBot.Application.csproj", "Libraries/TelegramBot.Application/"]
 COPY ["Libraries/TelegramBot.CrossCutting/TelegramBot.CrossCutting.csproj", "Libraries/TelegramBot.CrossCutting/"]
+COPY ["ESB/Libraries/ESB.Domain/ESB.Domain.csproj", "ESB/Libraries/ESB.Domain/"]
 RUN dotnet restore "TelegramBot.WebHook/TelegramBot.WebHook.csproj"
 COPY . .
 WORKDIR "/src/TelegramBot.WebHook"

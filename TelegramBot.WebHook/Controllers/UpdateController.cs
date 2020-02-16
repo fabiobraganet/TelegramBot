@@ -21,7 +21,7 @@ namespace TelegramBot.WebHook.Controllers
             _updateService = updateService;
             _cache = cache;
             _cacheSetting = new DistributedCacheEntryOptions();
-            _cacheSetting.SetAbsoluteExpiration(TimeSpan.FromMinutes(2));
+            _cacheSetting.SetAbsoluteExpiration(TimeSpan.FromSeconds(30));
         }
         
         [HttpPost]
@@ -35,15 +35,15 @@ namespace TelegramBot.WebHook.Controllers
 
             if (string.IsNullOrWhiteSpace(trafficControl))
             {
-                await _cache.SetStringAsync(key: cacheKey, value: "1");
+                _cache.SetStringAsync(key: cacheKey, value: "1").Wait();
 
-                await _updateService.EchoAsync(update);
+                _updateService.EchoAsync(update).Wait();
 
-                await _cache.RemoveAsync(key: cacheKey);
+                await _cache.RemoveAsync(key: cacheKey).ConfigureAwait(false);
             }
             else
             {
-                await _updateService.WaitForReturnAsync(update);
+                await _updateService.WaitForReturnAsync(update).ConfigureAwait(false);
             }
 
             return Ok();

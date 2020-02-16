@@ -13,3 +13,8 @@ services:
     container_name: redis
     hostname: redis
     image: redis
+
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:3-management

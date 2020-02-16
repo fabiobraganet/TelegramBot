@@ -14,6 +14,7 @@ services:
       - backend
     depends_on: 
       - "redis"
+      - "rabbitmq"
 
   redis:
     command: redis-server --requirepass !Redis2020
@@ -23,6 +24,18 @@ services:
       - backend
     volumes:
       - redis-data:/data
+
+  rabbitmq:
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "!RabbitMQ2020"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend
+
 
 volumes:
   redis-data:

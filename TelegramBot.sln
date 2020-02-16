@@ -5,15 +5,21 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D45C30E2-D3CA-4530-96C0-54FE0B27C341}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.WebHook", "TelegramBot.WebHook\TelegramBot.WebHook.csproj", "{9E8269C9-33CD-4D63-AA38-504FB44BA4CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBot.WebHook", "TelegramBot.WebHook\TelegramBot.WebHook.csproj", "{9E8269C9-33CD-4D63-AA38-504FB44BA4CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{7C2B8ADE-769B-4324-8EB7-1364B76629FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.CrossCutting", "Libraries\TelegramBot.CrossCutting\TelegramBot.CrossCutting.csproj", "{4A2A9E93-0989-4A3C-BDA9-BAF28C1B51DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBot.CrossCutting", "Libraries\TelegramBot.CrossCutting\TelegramBot.CrossCutting.csproj", "{4A2A9E93-0989-4A3C-BDA9-BAF28C1B51DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Application", "Libraries\TelegramBot.Application\TelegramBot.Application.csproj", "{1B544819-42A2-424B-8A01-4BE58BCE7EC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBot.Application", "Libraries\TelegramBot.Application\TelegramBot.Application.csproj", "{1B544819-42A2-424B-8A01-4BE58BCE7EC8}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{38B675ED-2D3B-4576-A21F-920233EFC162}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ESB", "ESB", "{F31785CD-1D5E-4FDF-904B-115AF9C69AE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{73251078-7D9A-485C-A002-6280435734C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESB.Domain", "ESB\Libraries\ESB.Domain\ESB.Domain.csproj", "{58C92BFC-CB4B-4F5D-B3BB-26C1128B781C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +43,10 @@ Global
 		{38B675ED-2D3B-4576-A21F-920233EFC162}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38B675ED-2D3B-4576-A21F-920233EFC162}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38B675ED-2D3B-4576-A21F-920233EFC162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C92BFC-CB4B-4F5D-B3BB-26C1128B781C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C92BFC-CB4B-4F5D-B3BB-26C1128B781C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C92BFC-CB4B-4F5D-B3BB-26C1128B781C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C92BFC-CB4B-4F5D-B3BB-26C1128B781C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +56,9 @@ Global
 		{7C2B8ADE-769B-4324-8EB7-1364B76629FB} = {D45C30E2-D3CA-4530-96C0-54FE0B27C341}
 		{4A2A9E93-0989-4A3C-BDA9-BAF28C1B51DB} = {7C2B8ADE-769B-4324-8EB7-1364B76629FB}
 		{1B544819-42A2-424B-8A01-4BE58BCE7EC8} = {7C2B8ADE-769B-4324-8EB7-1364B76629FB}
+		{F31785CD-1D5E-4FDF-904B-115AF9C69AE8} = {D45C30E2-D3CA-4530-96C0-54FE0B27C341}
+		{73251078-7D9A-485C-A002-6280435734C5} = {F31785CD-1D5E-4FDF-904B-115AF9C69AE8}
+		{58C92BFC-CB4B-4F5D-B3BB-26C1128B781C} = {73251078-7D9A-485C-A002-6280435734C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5EC457C0-1DD3-43D3-8808-AA6E791BF258}
