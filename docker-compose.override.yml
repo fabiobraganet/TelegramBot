@@ -16,6 +16,16 @@ services:
       - "redis"
       - "rabbitmq"
 
+  esbworkersbots:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - backend
+    depends_on: 
+      - "rabbitmq"
+
   redis:
     command: redis-server --requirepass !Redis2020
     ports:

@@ -18,3 +18,12 @@ services:
     container_name: rabbitmq
     hostname: rabbitmq
     image: rabbitmq:3-management
+
+  esbworkersbots:
+    container_name: esbworkersbots
+    hostname: esbworkersbots
+    image: esbworkersbots
+    build:
+      context: .
+      dockerfile: ESB/Workers/ESB.Workers.Bots/Dockerfile
+
