@@ -6,6 +6,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["ESB/Workers/ESB.Workers.Bots/ESB.Workers.Bots.csproj", "ESB/Workers/ESB.Workers.Bots/"]
+COPY ["ESB/Libraries/ESB.Data/ESB.Data.csproj", "ESB/Libraries/ESB.Data/"]
 COPY ["ESB/Libraries/ESB.Domain/ESB.Domain.csproj", "ESB/Libraries/ESB.Domain/"]
 RUN dotnet restore "ESB/Workers/ESB.Workers.Bots/ESB.Workers.Bots.csproj"
 COPY . .

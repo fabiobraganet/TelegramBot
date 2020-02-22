@@ -9,4 +9,8 @@
     <PackageReference Include="Rebus.RabbitMq" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESB.Domain\ESB.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

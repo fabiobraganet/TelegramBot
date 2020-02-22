@@ -1,11 +1,6 @@
 
 namespace ESB.Workers.Bots
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using ESB.Workers.Bots.Services;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
@@ -20,7 +15,6 @@ namespace ESB.Workers.Bots
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddScoped<MessageBotService, MessageBotService>();
                     services.AddHostedService<WorkerBotMessage>();
                 });
     }

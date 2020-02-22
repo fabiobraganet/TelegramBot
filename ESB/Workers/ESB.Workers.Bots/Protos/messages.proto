@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "ESB.Bots.Interactions";
+
+package ServiceMessage;
+
+service Messages {
+  rpc ProcessMessage (MessageIn) returns (MessageOut);
+}
+
+message MessageIn {
+  string MessageId = 1;
+  string BotUserId = 2;
+  string Text = 3;  
+  string SendDate = 4;
+}
+
+message MessageOut {
+  bool Result = 1;
+  string Message = 2;
+}

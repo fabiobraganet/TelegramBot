@@ -47,7 +47,7 @@ namespace TelegramBot.Application.Services
                 MessageId = message.MessageId.ToString(),
                 BotUserId = message.Chat.Id.ToString(),
                 Text = message.Text,
-                SendDate = message.Date
+                SendDate = message.Date.Ticks
             };
 
             using (var scope = new RebusTransactionScope())

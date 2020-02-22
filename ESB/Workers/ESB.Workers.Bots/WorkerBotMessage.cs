@@ -1,9 +1,14 @@
 
 namespace ESB.Workers.Bots
 {
-    using ESB.Workers.Bots.Services;
+    using ESB.Data.Messaging;
+    using ESB.Domain.Entities.Bots;
+    using Grpc.Core;
+    using Grpc.Net.Client;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -11,42 +16,56 @@ namespace ESB.Workers.Bots
     public class WorkerBotMessage : BackgroundService
     {
         private readonly ILogger<WorkerBotMessage> _logger;
-        private readonly MessageBotService _messageBotService; 
+        private readonly IConfiguration _configuration;        
 
-        public WorkerBotMessage(ILogger<WorkerBotMessage> logger, MessageBotService messagebotservice)
+        public WorkerBotMessage(ILogger<WorkerBotMessage> logger, IConfiguration configuration)
         {
             _logger = logger;
-            _messageBotService = messagebotservice;
+            _configuration = configuration;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Thread execute = new Thread(ConsumerMessageBots) { Priority = ThreadPriority.Highest };
+            var connectionRabbitMQ = _configuration.GetConnectionString("ConexaoRabbitMQ");
+            var queueName = typeof(BotMessage).Name;
+            var mensageria = new MessageOperator<BotMessage>(connectionRabbitMQ, queueName, "a", "b", 1, 1);
+
             try
             {
-                execute.Start();
-
-                while (!stoppingToken.IsCancellationRequested)
-                    await Task.Delay(1000, stoppingToken);
+                mensageria.Received += Mensageria_Received;
+                await mensageria.Execute(stoppingToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-
-                execute.Abort();
             }
             finally
             {
-                if (execute.IsAlive) 
-                    execute.Abort();
-
                 _logger.LogInformation("Finalizando a execução do WorkerBotMessage");
             }
         }
 
-        private void ConsumerMessageBots()
+        private void Mensageria_Received(object sender, Domain.Events.MessageEventArgs<BotMessage> e)
         {
-            _messageBotService.Process();
+            var s = JsonConvert.SerializeObject(e.Args);
+            _logger.LogInformation(s);
+            //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+            //var uri = _configuration.GetConnectionString("GRPCInteractions");
+            //var msg = e.Args;
+            //var message = new ESB.Bots.Interactions.MessageIn()
+            //{
+            //    MessageId = msg.MessageId,
+            //    BotUserId = msg.BotUserId,
+            //    Text = msg.Text,
+            //    SendDate = msg.SendDate.ToString()
+            //};
+
+            //using var channel = GrpcChannel.ForAddress(uri);
+            //var client = new ESB.Bots.Interactions.Messages.MessagesClient(channel);
+            //var reply = client.ProcessMessage(message);
+            ////...
         }
+
     }
 }
