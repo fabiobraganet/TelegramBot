@@ -3,7 +3,6 @@ namespace ESB.Workers.Bots
 {
     using ESB.Data.Messaging;
     using ESB.Domain.Entities.Bots;
-    using Grpc.Core;
     using Grpc.Net.Client;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
