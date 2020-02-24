@@ -49,22 +49,21 @@ namespace ESB.Workers.Bots
         {
             var s = JsonConvert.SerializeObject(e.Args);
             _logger.LogInformation(s);
-            //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
-            //var uri = _configuration.GetConnectionString("GRPCInteractions");
-            //var msg = e.Args;
-            //var message = new ESB.Bots.Interactions.MessageIn()
-            //{
-            //    MessageId = msg.MessageId,
-            //    BotUserId = msg.BotUserId,
-            //    Text = msg.Text,
-            //    SendDate = msg.SendDate.ToString()
-            //};
+            var uri = _configuration.GetConnectionString("GRPCServicesMessaging");
+            var msg = e.Args;
+            var message = new ESB.Services.Messaging.MessageIn()
+            {
+                MessageId = msg.MessageId,
+                BotUserId = msg.BotUserId,
+                Text = msg.Text,
+                SendDate = msg.SendDate.ToString()
+            };
 
-            //using var channel = GrpcChannel.ForAddress(uri);
-            //var client = new ESB.Bots.Interactions.Messages.MessagesClient(channel);
-            //var reply = client.ProcessMessage(message);
-            ////...
+            using var channel = GrpcChannel.ForAddress(uri);
+            var client = new ESB.Services.Messaging.Messages.MessagesClient(channel);
+            var reply = client.ProcessMessage(message);
         }
 
     }

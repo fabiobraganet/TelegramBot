@@ -6,17 +6,12 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Protos\messages.proto" />
-  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.11.4" />
-    <!--<PackageReference Include="Grpc.AspNetCore.Server" Version="2.23.2" />-->
-    <PackageReference Include="Grpc.Net.Client" Version="2.27.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.24.0" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.23.2" />
-    <PackageReference Include="Grpc.Tools" Version="2.27.0">
+    <PackageReference Include="Grpc.Tools" Version="2.24.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -32,7 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\messages.proto" GrpcServices="Client" />
+    <Folder Include="Protos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\Services\ESB.Services.Messaging\Protos\messages.proto" GrpcServices="Client">
+      <Link>Protos\messages.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

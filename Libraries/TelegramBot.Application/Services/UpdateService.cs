@@ -16,6 +16,7 @@ namespace TelegramBot.Application.Services
     using Telegram.Bot.Types;
     using Telegram.Bot.Types.Enums;
     using TelegramBot.CrossCutting.Interfaces.Telegram;
+    using TelegramMessage = Telegram.Bot.Types.Message;
 
     public class UpdateService : IUpdateService
     {
@@ -40,7 +41,7 @@ namespace TelegramBot.Application.Services
                 .Create();
         }
 
-        private async Task PublishMessage(Message message)
+        private async Task PublishMessage(TelegramMessage message)
         {
             var esbmessage = new BotMessage()
             {

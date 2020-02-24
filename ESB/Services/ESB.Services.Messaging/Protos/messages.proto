@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "ESB.Bots.Interactions";
+option csharp_namespace = "ESB.Services.Messaging";
 
 package ServiceMessage;
 

@@ -13,8 +13,8 @@ services:
       - frontend
       - backend
     depends_on: 
-      - "redis"
-      - "rabbitmq"
+      - redis
+      - rabbitmq
 
   esbworkersbots:
     environment:
@@ -24,7 +24,23 @@ services:
     networks:
       - backend
     depends_on: 
-      - "rabbitmq"
+      - rabbitmq
+      - esbservicesmessaging
+
+  esbservicesmessaging:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    networks:
+      - backend
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on: 
+      - mssql
 
   redis:
     command: redis-server --requirepass !Redis2020
@@ -46,6 +62,16 @@ services:
     networks:
       - backend
 
+  mssql:
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=!MSSql2020
+    ports:
+        - '1433:1433'
+    networks:
+      - backend
+    volumes:
+        - './Docker/Volume/MSSQL:/var/opt/mssql'
 
 volumes:
   redis-data:
