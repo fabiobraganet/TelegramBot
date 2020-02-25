@@ -82,10 +82,10 @@ namespace ESB.Data.Messaging
                         .Logging(l => l.ColoredConsole(LogLevel.Error))
                         .Transport(t => t.UseRabbitMq(
                             connectionString: _connectionString,
-                            inputQueueName: _queueName))
-                            //.ExchangeNames(
-                            //    directExchangeName: _exchangeDirectTypeName,
-                            //    topicExchangeName: _exchangeTopicTypeName))
+                            inputQueueName: _queueName)
+                            .ExchangeNames(
+                                directExchangeName: _exchangeDirectTypeName,
+                                topicExchangeName: _exchangeTopicTypeName))
                         .Options(o =>
                         {
                             o.SetNumberOfWorkers(_queueNumberOfWorkers);

@@ -3,7 +3,6 @@ namespace ESB.Services.Messaging
 {
     using System;
     using System.Threading.Tasks;
-    using ESB.Domain.Entities.Bots;
     using ESB.Domain.Interfaces;
     using Grpc.Core;
     using Microsoft.Extensions.Logging;
@@ -11,9 +10,9 @@ namespace ESB.Services.Messaging
 
     public class BotMessageService : Messages.MessagesBase
     {
-        private readonly IRepository<Message> _messageRep;
+        private readonly IRepository<ESB.Domain.Entities.Bots.MessageIn> _messageRep;
         private readonly ILogger<BotMessageService> _logger;
-        public BotMessageService(IRepository<Message> messagerep, ILogger<BotMessageService> logger)
+        public BotMessageService(IRepository<ESB.Domain.Entities.Bots.MessageIn> messagerep, ILogger<BotMessageService> logger)
         {
             _messageRep = messagerep;
             _logger = logger;
@@ -23,9 +22,9 @@ namespace ESB.Services.Messaging
         {
             _logger.LogInformation($"Mensagem recebida: {request.BotUserId} {request.MessageId}");
 
-            _messageRep.Insert(new Message() 
+            _messageRep.Insert(new ESB.Domain.Entities.Bots.MessageIn() 
             {
-                Id = Guid.NewGuid(),
+                //Id = Guid.NewGuid(),
                 Order = request.MessageId,
                 AccountId = request.BotUserId,
                 Moment = DateTime.Now,

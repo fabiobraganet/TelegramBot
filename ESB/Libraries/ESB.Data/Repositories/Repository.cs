@@ -1,7 +1,7 @@
 ﻿
 namespace ESB.Data.Repositories
 {
-    using ESB.Data.Context;
+    using ESB.Data.Context.Bots;
     using ESB.Domain.Entities;
     using ESB.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
@@ -13,13 +13,13 @@ namespace ESB.Data.Repositories
         where T 
         : BaseEntity
     {
-        private readonly MessagingContext context;
+        private readonly BotsContext context;
 
         private DbSet<T> entities;
         
         string errorMessage = string.Empty;
         
-        public Repository(MessagingContext context)
+        public Repository(BotsContext context)
         {
             this.context = context;
             entities = context.Set<T>();
@@ -30,10 +30,6 @@ namespace ESB.Data.Repositories
             return entities.AsEnumerable();
         }
         
-        public T Get(Guid id)
-        {
-            return entities.SingleOrDefault(s => s.Id == id);
-        }
         public void Insert(T entity)
         {
             if (entity == null)
@@ -43,6 +39,7 @@ namespace ESB.Data.Repositories
             
             context.SaveChanges();
         }
+
         public void Update(T entity)
         {
             if (entity == null)
@@ -50,6 +47,7 @@ namespace ESB.Data.Repositories
             
             context.SaveChanges();
         }
+
         public void Delete(T entity)
         {
             if (entity == null)
