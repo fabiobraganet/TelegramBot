@@ -18,6 +18,8 @@ services:
       dockerfile: ESB/Workers/ESB.Workers.Bots/Dockerfile
 
   esbservicesmessaging:
+    container_name: esbservicesmessaging
+    hostname: esbservicesmessaging
     image: esbservicesmessaging
     build:
       context: .

@@ -1,7 +1,7 @@
 ﻿
 namespace ESB.Services.Messaging
 {
-    using ESB.Data.Context;
+    using ESB.Data.Context.Bots;
     using ESB.Data.Repositories;
     using ESB.Domain.Interfaces;
     using Microsoft.AspNetCore.Builder;
@@ -29,17 +29,11 @@ namespace ESB.Services.Messaging
             services.AddGrpc();
             services
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<MessagingContext>(Option 
+                .AddDbContext<BotsContext>(Option 
                     => Option.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"), 
-                        x => x.MigrationsAssembly("ESB.Data.Migrations.Messaging")));
+                        x => x.MigrationsAssembly("ESB.Data.Migrations.Bots")));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-            //services
-            //    .AddEntityFrameworkNpgsql()
-            //    .AddDbContext<MessagingContext>(options =>
-            //        options.UseNpgsql(Configuration.GetConnectionString("Postgresql"),
-            //        npgOptions => npgOptions.UseNetTopologySuite()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

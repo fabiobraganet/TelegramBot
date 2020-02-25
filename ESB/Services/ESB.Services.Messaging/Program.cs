@@ -1,7 +1,7 @@
 
 namespace ESB.Services.Messaging
 {
-    using ESB.Data.Context;
+    using ESB.Data.Context.Bots;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -22,7 +22,7 @@ namespace ESB.Services.Messaging
 
                 if (configuration.GetSection("EnableAutomaticMigrations")?.Value == "true")
                 {
-                    using (var context = new MessagingContext(configuration))
+                    using (var context = new BotsContext(configuration))
                     {
                         context.Database.Migrate();
                     }
