@@ -8,6 +8,9 @@ namespace ESB.Workers.Bots
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
+    using Rebus.Activation;
+    using Rebus.Config;
+    using Rebus.Transport;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -63,6 +66,31 @@ namespace ESB.Workers.Bots
             using var channel = GrpcChannel.ForAddress(uri);
             var client = new ESB.Services.Messaging.Messages.MessagesClient(channel);
             var reply = client.ProcessMessage(message);
+
+            var _activator = new BuiltinHandlerActivator();
+            var connectionRabbitMQ = _configuration.GetConnectionString("ConexaoRabbitMQ");
+            var queueName = typeof(BotMessageOut).Name;
+
+            Configure
+                .With(_activator)
+                .Transport(t => t.UseRabbitMq(connectionRabbitMQ, queueName)
+                                    .EnablePublisherConfirms(value: true))
+                .Create();
+
+            var esbmessage = new BotMessageOut()
+            {
+                MessageId = msg.MessageId.ToString(),
+                BotUserId = msg.BotUserId.ToString(),
+                Text = reply.Message,
+                SendDate = DateTime.UtcNow.Ticks
+            };
+
+            using (var scope = new RebusTransactionScope())
+            {
+                _activator.Bus.SendLocal(esbmessage).Wait();
+                scope.CompleteAsync().Wait();
+            }
+
         }
 
     }
