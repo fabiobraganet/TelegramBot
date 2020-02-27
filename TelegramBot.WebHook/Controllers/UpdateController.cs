@@ -37,9 +37,9 @@ namespace TelegramBot.WebHook.Controllers
             {
                 _cache.SetStringAsync(key: cacheKey, value: "1").Wait();
 
-                _updateService.EchoAsync(update).Wait();
+                _updateService.ReceiveMessagesAsync(update).Wait();
 
-                await _cache.RemoveAsync(key: cacheKey).ConfigureAwait(false);
+                //await _cache.RemoveAsync(key: cacheKey).ConfigureAwait(false);
             }
             else
             {

@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESB\Libraries\ESB.Domain\ESB.Domain.csproj" />
     <ProjectReference Include="..\Libraries\TelegramBot.Application\TelegramBot.Application.csproj" />
     <ProjectReference Include="..\Libraries\TelegramBot.CrossCutting\TelegramBot.CrossCutting.csproj" />
   </ItemGroup>

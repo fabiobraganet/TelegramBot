@@ -58,7 +58,7 @@ namespace TelegramBot.Application.Services
             }
         }
 
-        public async Task EchoAsync(Update update)
+        public async Task ReceiveMessagesAsync(Update update)
         {
             if (update.Type != UpdateType.Message)
             {

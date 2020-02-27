@@ -37,6 +37,8 @@ namespace TelegramBot.WebHook
                 options.Configuration = Configuration.GetConnectionString("ConexaoRedis");
                 options.InstanceName = "Test";
             });
+
+            services.AddHostedService<WorkerBotMessage>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

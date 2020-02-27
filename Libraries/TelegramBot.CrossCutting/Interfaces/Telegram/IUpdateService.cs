@@ -6,7 +6,8 @@ namespace TelegramBot.CrossCutting.Interfaces.Telegram
 
     public interface IUpdateService
     {
-        Task EchoAsync(Update update);
+        Task ReceiveMessagesAsync(Update update);
         Task WaitForReturnAsync(Update update);
+        Task SendTextMessageAsync(long chatid, string message);
     }
 }
